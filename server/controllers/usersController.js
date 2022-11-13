@@ -53,7 +53,7 @@ const setAvatar = async (req, res, next) => {
         const userData = await User.findByIdAndUpdate(userId, {
             isAvatarImageSet: true,
             avatarImage,
-        })
+        }, { new: true })
 
         return res.status(200).json({ isSet: userData.isAvatarImageSet, image: userData.avatarImage })
     } catch (error) {

@@ -4,7 +4,7 @@ import { selectContacts, selectUser, setUser } from '../utils/slices/userSlice'
 import logo from '../assets/logo.svg'
 import classNames from 'classnames'
 import Cookies from 'js-cookie'
-import { selectSelectedChat, setSelectedChat } from '../utils/slices/chatSlice'
+import { selectSelectedChat, setMessages, setSelectedChat } from '../utils/slices/chatSlice'
 
 const Contacts = () => {
     const contacts = useSelector(selectContacts)
@@ -17,12 +17,13 @@ const Contacts = () => {
         const { username, avatarImage, email } = contact
         const handleChatSelect = () => {
             dispatch(setSelectedChat(contact))
+            Cookies.set('activeChat', JSON.stringify(contact))
         }
 
         const selectedChat = useSelector(selectSelectedChat)
 
         return (
-            <div onClick={handleChatSelect} className={classNames("w-full bg-dark shadow-md cursor-pointer rounded-lg p-4", selectedChat?._id === contact._id ? 'border-2 border-white' : '')}>
+            <div onClick={handleChatSelect} className={classNames("w-full bg-dark hover:bg-dark-700 transition-all ease-in-out duration-300 shadow-md cursor-pointer rounded-lg p-4", selectedChat?._id === contact._id ? 'border-2 border-white' : '')}>
                 <div className="flex space-x-4 w-full">
                     <img className='bg-white rounded-full h-12' src={avatarImage} alt={`${username}'s Avatar`} />
                     <div className="flex w-full flex-col">
@@ -36,11 +37,14 @@ const Contacts = () => {
 
     const handleLogout = () => {
         Cookies.remove('user')
+        Cookies.remove('activeChat')
         dispatch(setUser(undefined))
+        dispatch(setSelectedChat(undefined))
+        dispatch(setMessages([]))
     }
 
     return (
-        <aside className={classNames('h-screen w-screen absolute z-50  transition-all ease-in-out duration-300 top-0 left-0 sm:translate-x-0 sm:w-60 md:w-72 lg:w-80 xl:w-96 flex flex-col items-center bg-dark-900 px-4 py-8 sm:relative', false ? 'translate-x-0' : '-translate-x-full')}>
+        <aside className={classNames('h-screen w-screen absolute z-50  transition-all ease-in-out duration-300 top-0 left-0 sm:translate-x-0 sm:w-60 md:w-72 lg:w-80 xl:w-96 flex flex-col items-center bg-dark-900 px-4 py-8 sm:relative', true ? 'translate-x-0' : '-translate-x-full')}>
             <div className="flex flex-col items-center">
                 <img src={logo} alt="Babble! Logo" />
                 <h1 className='text-light'>Babble!</h1>
@@ -52,7 +56,7 @@ const Contacts = () => {
             </div>
 
 
-            <div className="flex w-full flex-col flex-1 overflow-scroll space-y-4 px-2 scrollbar-thin scrollbar-track-blue-500">
+            <div className="flex w-full flex-col h-96 sm:h-80 overflow-y-scroll space-y-4 px-2 scrollbar-thin scrollbar-track-white scrollbar-thumb-purple-500">
                 {
                     contacts ?
                         contacts.map((contact) => {
@@ -66,13 +70,17 @@ const Contacts = () => {
             </div>
 
             <div className="w-full bg-dark p-4 absolute bottom-0 left-0 space-y-3">
-                <div className="flex space-x-4 w-full">
-                    <img className='bg-white rounded-full h-12' src={avatarImage} alt={`${username}'s Avatar`} />
-                    <div className="flex w-full flex-col">
-                        <h3 className='text-white truncate'>{username}</h3>
-                        <h4 className='text-light-300 text-sm font-light truncate w-36 xl:w-64'>{email}</h4>
+                {user ?
+                    <div className="flex space-x-4 w-full">
+                        <img className='bg-white rounded-full h-12' src={avatarImage} alt={`${username}'s Avatar`} />
+                        <div className="flex w-full flex-col">
+                            <h3 className='text-white truncate'>{username}</h3>
+                            <h4 className='text-light-300 text-sm font-light truncate w-36 xl:w-64'>{email}</h4>
+                        </div>
                     </div>
-                </div>
+                    :
+                    <div className="">Loading...</div>
+                }
 
                 <button onClick={handleLogout} className='gradient__button w-full'>Logout</button>
             </div>
