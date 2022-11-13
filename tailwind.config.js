@@ -16,7 +16,7 @@ module.exports = {
           '600': '#515151',
           '700': '#434343',
           '800': '#383838',
-          '900': '#333333',
+          '900': '#222222',
           DEFAULT: '#333333'
         },
 
@@ -37,5 +37,8 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    // ...
+    require('tailwind-scrollbar'),
+  ],
 }
