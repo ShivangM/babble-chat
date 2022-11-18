@@ -44,7 +44,7 @@ const Chat = () => {
     return (
         <main className='page__container'>
             <div className="flex w-full">
-                <Contacts />
+                <Contacts socket={socket} />
                 {
                     selectedChat ?
                         <ChatWindow socket={socket} />

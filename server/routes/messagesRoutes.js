@@ -1,3 +1,4 @@
+const { model } = require('mongoose');
 const { addMessage, getAllMessage } = require('../controllers/messagesController');
 
 

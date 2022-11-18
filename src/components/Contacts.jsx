@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import Cookies from 'js-cookie'
 import { selectSelectedChat, setMessages, setSelectedChat } from '../utils/slices/chatSlice'
 
-const Contacts = () => {
+const Contacts = ({ socket }) => {
     const contacts = useSelector(selectContacts)
     const dispatch = useDispatch()
     const user = useSelector(selectUser)
@@ -36,6 +36,7 @@ const Contacts = () => {
     }
 
     const handleLogout = () => {
+        socket.current.disconnect()
         Cookies.remove('user')
         Cookies.remove('activeChat')
         dispatch(setUser(undefined))

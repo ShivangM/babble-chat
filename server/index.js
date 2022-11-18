@@ -40,20 +40,24 @@ const io = socket(server, {
     }
 })
 
-global.onlineUsers = new Map();
+const onlineUsers = new Map();
 
 io.on("connection", (socket) => {
     global.chatSocket = socket
+
     socket.on("add-user", (userId) => {
-        console.log(userId);
         onlineUsers.set(userId, socket.id)
     })
 
     socket.on("send-message", (data) => {
         const sendUserSocket = onlineUsers.get(data.to);
-        console.log(sendUserSocket)
         if (sendUserSocket) {
             socket.to(sendUserSocket).emit("message-recieve", data.messages)
         }
+    })
+
+    socket.on('disconnect', () => {
+        // console.log(`${socket.id} disconnected`);
+        onlineUsers.delete(socket.id) // delete socket from Map object
     })
 })
