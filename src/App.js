@@ -11,7 +11,7 @@ import { store } from "./utils/Store";
 function App() {
   return (
     <div className="">
-      <BrowserRouter>
+      <BrowserRouter basename="/">
         <Provider store={store}>
           <Routes>
             <Route path="/register" element={<Register />} />
