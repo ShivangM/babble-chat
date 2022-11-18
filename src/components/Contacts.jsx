@@ -5,13 +5,20 @@ import logo from '../assets/logo.svg'
 import classNames from 'classnames'
 import Cookies from 'js-cookie'
 import { selectSelectedChat, setMessages, setSelectedChat } from '../utils/slices/chatSlice'
+import { selectDrawerOpen, toggelDrawerOpen } from '../utils/slices/navSlice'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const Contacts = ({ socket }) => {
     const contacts = useSelector(selectContacts)
     const dispatch = useDispatch()
     const user = useSelector(selectUser)
+    const drawerOpen = useSelector(selectDrawerOpen)
     if (!user) return
     const { username, avatarImage, email } = user
+
+    const handleDrawer = () => {
+        dispatch(toggelDrawerOpen())
+    }
 
     const ContactCard = ({ contact }) => {
         const { username, avatarImage, email } = contact
@@ -45,7 +52,8 @@ const Contacts = ({ socket }) => {
     }
 
     return (
-        <aside className={classNames('h-screen w-screen absolute z-50  transition-all ease-in-out duration-300 top-0 left-0 sm:translate-x-0 sm:w-60 md:w-72 lg:w-80 xl:w-96 flex flex-col items-center bg-dark-900 px-4 py-8 sm:relative', true ? 'translate-x-0' : '-translate-x-full')}>
+        <aside className={classNames('h-screen w-screen absolute z-50  transition-all ease-in-out duration-300 top-0 left-0 sm:translate-x-0 sm:w-60 md:w-72 lg:w-80 xl:w-96 flex flex-col items-center bg-dark-900 px-4 py-8 sm:relative', drawerOpen ? 'translate-x-0' : '-translate-x-full')}>
+            <XMarkIcon onClick={handleDrawer} className='text-white h-10 w-10 absolute right-6 sm:hidden' />
             <div className="flex flex-col items-center">
                 <img src={logo} alt="Babble! Logo" />
                 <h1 className='text-light'>Babble!</h1>
@@ -66,7 +74,7 @@ const Contacts = ({ socket }) => {
                             )
                         })
                         :
-                        <h1>No Contacts!</h1>
+                        <h1 className='text-white'>No Contacts Available</h1>
                 }
             </div>
 

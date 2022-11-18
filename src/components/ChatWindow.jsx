@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addMessage, selectMessages, selectSelectedChat, setMessages } from '../utils/slices/chatSlice'
-import { FaceSmileIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, FaceSmileIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import EmojiPicker from 'emoji-picker-react'
 import toast from 'react-hot-toast'
@@ -9,6 +9,7 @@ import { selectUser } from '../utils/slices/userSlice'
 import axios from 'axios'
 import { getMessagesRoute, sendMessageRoute } from '../utils/APIRoutes'
 import { v4 as uuid } from 'uuid'
+import { toggelDrawerOpen } from '../utils/slices/navSlice'
 
 const ChatWindow = ({ socket }) => {
     const selectedChat = useSelector(selectSelectedChat)
@@ -93,16 +94,21 @@ const ChatWindow = ({ socket }) => {
         )
     }
 
+    const handleDrawer = () => {
+        dispatch(toggelDrawerOpen())
+    }
+
     return (
         selectedChat ?
             <section className='relative flex-1'>
-                <header className="absolute px-10 py-4 right-0 top-0 w-full bg-dark-900/60">
-                    <div className="flex space-x-4 w-full">
+                <header className="absolute px-4 sm:px-10 py-4 right-0 top-0 w-full bg-dark-900/60">
+                    <div className="flex items-center space-x-4 w-full">
                         <img className='bg-white rounded-full h-12' src={selectedChat?.avatarImage} alt={`${selectedChat?.username}'s Avatar`} />
                         <div className="flex w-full flex-col">
                             <h3 className='text-white truncate w-24 lg:w-36'>{selectedChat?.username}</h3>
                             <h4 className='text-light-500 text-sm font-light truncate w-24 lg:w-36'>{selectedChat?.email}</h4>
                         </div>
+                        <Bars3Icon className='text-white sm:hidden h-10 w-10' onClick={handleDrawer} />
                     </div>
                 </header>
 
