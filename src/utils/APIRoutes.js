@@ -1,4 +1,4 @@
-export const baseurl = process.env.URL || "https://babble-chat-backend.vercel.app";
+export const baseurl = process.env.REACT_APP_SERVER_URL || "http://localhost:5000";
 export const registerRoute = `${baseurl}/api/auth/register`
 export const loginRoute = `${baseurl}/api/auth/login`
 export const setAvatarRoute = `${baseurl}/api/auth/set-avatar`
