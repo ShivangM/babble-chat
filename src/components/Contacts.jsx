@@ -10,9 +10,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const Contacts = ({ socket }) => {
     const contacts = useSelector(selectContacts)
-    const dispatch = useDispatch()
     const user = useSelector(selectUser)
     const drawerOpen = useSelector(selectDrawerOpen)
+
+    const dispatch = useDispatch()
+
     if (!user) return
     const { username, avatarImage, email } = user
 
@@ -22,6 +24,7 @@ const Contacts = ({ socket }) => {
 
     const ContactCard = ({ contact }) => {
         const { username, avatarImage, email } = contact
+
         const handleChatSelect = () => {
             dispatch(setSelectedChat(contact))
             Cookies.set('activeChat', JSON.stringify(contact))

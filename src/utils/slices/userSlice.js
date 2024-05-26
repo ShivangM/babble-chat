@@ -13,6 +13,7 @@ export const userSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
+        
         setContacts: (state, action) => {
             state.contacts = action.payload;
         },

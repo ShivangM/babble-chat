@@ -30,6 +30,7 @@ const Register = () => {
 
         try {
             setIsSubmitting(true)
+
             const { data } = await axios.post(registerRoute, {
                 username,
                 email,

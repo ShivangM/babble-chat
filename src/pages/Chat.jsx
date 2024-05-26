@@ -12,6 +12,7 @@ import { io } from 'socket.io-client'
 
 const Chat = () => {
     const socket = useRef()
+
     const navigate = useNavigate()
     const user = useSelector(selectUser)
     const dispatch = useDispatch()

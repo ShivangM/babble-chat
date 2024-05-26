@@ -10,6 +10,7 @@ import { selectUser, setUser } from '../utils/slices/userSlice'
 
 const SetAvatar = () => {
     const user = useSelector(selectUser)
+
     const [selectedAvatar, setSelectedAvatar] = useState()
 
     const avatars = [
@@ -20,7 +21,8 @@ const SetAvatar = () => {
         'miniavs',
         'avataaars',
     ]
-    const api = `https://avatars.dicebear.com/api/`
+
+    const api = `https://api.dicebear.com/8.x/`
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -36,7 +38,7 @@ const SetAvatar = () => {
             return;
         }
 
-        const avatar = api + `${selectedAvatar}/${user?.username.replace(' ', '-').toLocaleLowerCase()}.svg`
+        const avatar = api + `${selectedAvatar}/svg?seed=${user?.username.toLocaleLowerCase()}`
 
         try {
             const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, { image: avatar })
@@ -67,7 +69,7 @@ const SetAvatar = () => {
                     {
                         avatars.map((avatar, key) => {
                             return (
-                                <img className={classNames('rounded-full cursor-pointer hover:opacity-100 transition-all ease-in-out duration-300 focus:ring-2 bg-white', selectedAvatar === avatar ? 'opacity-100 border-4 border-blue-500' : 'opacity-60')} onClick={() => setSelectedAvatar(avatar)} key={key} src={api + `${avatar}/${user?.username.replace(' ', '-').toLocaleLowerCase()}.svg`} alt={`Avatar ${key + 1}`} />
+                                <img className={classNames('rounded-full cursor-pointer hover:opacity-100 transition-all ease-in-out duration-300 focus:ring-2 bg-white', selectedAvatar === avatar ? 'opacity-100 border-4 border-blue-500' : 'opacity-60')} onClick={() => setSelectedAvatar(avatar)} key={key} src={api + `${selectedAvatar}/svg?seed=${user?.username.toLocaleLowerCase()}`} alt={`Avatar ${key + 1}`} />
                             )
                         })
                     }

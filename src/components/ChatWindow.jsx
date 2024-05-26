@@ -13,13 +13,16 @@ import { toggelDrawerOpen } from '../utils/slices/navSlice'
 
 const ChatWindow = ({ socket }) => {
     const selectedChat = useSelector(selectSelectedChat)
-    const msgRef = useRef()
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-    const user = useSelector(selectUser)
-    const [sendingMsg, setSendingMsg] = useState(false)
-    const dispatch = useDispatch()
     const messages = useSelector(selectMessages)
+    const user = useSelector(selectUser)
+
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+    const [sendingMsg, setSendingMsg] = useState(false)
+
+    const dispatch = useDispatch()
+
     const scrollRef = useRef()
+    const msgRef = useRef()
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -42,6 +45,7 @@ const ChatWindow = ({ socket }) => {
 
         if (msg.length > 0) {
             setSendingMsg(true)
+
             const messageToSend = {
                 from: user._id,
                 to: selectedChat._id,
@@ -87,6 +91,7 @@ const ChatWindow = ({ socket }) => {
 
     const MessageCard = ({ msg }) => {
         const { message, fromSelf } = msg
+
         return (
             <div ref={scrollRef} key={uuid()} className={classNames("text-white max-w-xs px-4 py-2 w-fit", fromSelf ? "self-end bg-blue-500 rounded-tl-2xl" : "self-start bg-purple-500 rounded-tr-2xl")}>
                 <p>{message}</p>
@@ -135,6 +140,7 @@ const ChatWindow = ({ socket }) => {
                             </div>
                             <FaceSmileIcon className='text-yellow-500 h-8 w-8 shadow-sm cursor-pointer' onClick={() => { setShowEmojiPicker(!showEmojiPicker) }} />
                         </div>
+
                         <input type="text" className='flex-1 p-3 disabled:opacity-60' placeholder={sendingMsg ? 'Sending Message...' : 'Enter your message..'} required disabled={sendingMsg} ref={msgRef} min={1} />
 
                         <button type='submit' disabled={sendingMsg} >
