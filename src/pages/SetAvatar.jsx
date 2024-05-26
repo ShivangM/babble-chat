@@ -69,7 +69,7 @@ const SetAvatar = () => {
                     {
                         avatars.map((avatar, key) => {
                             return (
-                                <img className={classNames('rounded-full cursor-pointer hover:opacity-100 transition-all ease-in-out duration-300 focus:ring-2 bg-white', selectedAvatar === avatar ? 'opacity-100 border-4 border-blue-500' : 'opacity-60')} onClick={() => setSelectedAvatar(avatar)} key={key} src={api + `${selectedAvatar}/svg?seed=${user?.username.toLocaleLowerCase()}`} alt={`Avatar ${key + 1}`} />
+                                <img className={classNames('rounded-full cursor-pointer hover:opacity-100 transition-all ease-in-out duration-300 focus:ring-2 bg-white', selectedAvatar === avatar ? 'opacity-100 border-4 border-blue-500' : 'opacity-60')} onClick={() => setSelectedAvatar(avatar)} key={key} src={api + `${avatar}/svg?seed=${user?.username.toLocaleLowerCase()}`} alt={`Avatar ${key + 1}`} />
                             )
                         })
                     }
